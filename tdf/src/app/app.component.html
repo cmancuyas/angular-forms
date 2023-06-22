@@ -1,0 +1,157 @@
+<div class="container-fluid">
+  <h1>Bootcamp Enrollment Form</h1>
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  <form
+    #userForm="ngForm"
+    novalidate
+    (ngSubmit)="onSubmit(userForm)"
+    *ngIf="!submitted"
+  >
+    {{ userForm.value | json }}
+    <hr />
+    {{ userModel | json }}
+    {{ "userForm.form.valid: " + userForm.form.valid }}
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        #name="ngModel"
+        class="form-control"
+        [class.is-invalid]="name.invalid && name.touched"
+        name="name"
+        [(ngModel)]="userModel.name"
+        required
+      />
+      <small class="text-danger" [class.d-none]="name.valid || name.untouched"
+        >Name is required</small
+      >
+    </div>
+
+    {{ name.untouched }}
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        [(ngModel)]="userModel.email"
+      />
+    </div>
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input
+        type="tel"
+        #phone="ngModel"
+        pattern="^\d{10}$"
+        [class.is-invalid]="phone.invalid && phone.touched"
+        class="form-control"
+        name="phone"
+        [(ngModel)]="userModel.phone"
+        required
+      />
+      <!-- <small
+      class="text-danger"
+      [class.d-none]="phone.valid || phone.untouched"
+      >Phone number is required and must be 10 digits</small> -->
+      <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+        <small class="text-danger" *ngIf="phone.errors['required']"
+          >Phone number is required</small
+        >
+        <small class="text-danger" *ngIf="phone.errors['pattern']"
+          >Phone number must be 10 digits</small
+        >
+      </div>
+    </div>
+    <!-- Topics -->
+    <div class="form-group">
+      <label for="topic">Topics</label>
+      <select
+        (blur)="validateTopic(topic.value)"
+        (change)="validateTopic(topic.value)"
+        #topic="ngModel"
+        name="topic"
+        id=""
+        [class.is-invalid]="topicHasError && topic.invalid && topic.touched"
+        class="custom-select mt-3 form-control"
+        [(ngModel)]="userModel.topic"
+      >
+        <option value="default">I am interested in</option>
+        <option *ngFor="let topic of topics">{{ topic }}</option>
+      </select>
+      <small
+        class="text-danger"
+        [class.d-none]="!topicHasError || topic.untouched"
+        >Please choose a topic</small
+      >
+    </div>
+    <!-- NgModelGroup="address" -->
+    <div ngModelGroup="address">
+      <div class="form-group">
+        <label>Street</label>
+        <input type="text" class="form-control" name="street" ngModel />
+      </div>
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-control" name="city" ngModel />
+      </div>
+      <div class="form-group">
+        <label>State</label>
+        <input type="text" class="form-control" name="state" ngModel />
+      </div>
+      <div class="form-group">
+        <label>Postal Code</label>
+        <input type="text" class="form-control" name="postalCode" ngModel />
+      </div>
+    </div>
+
+    <!-- Time Preference -->
+    <div class="mb-3">
+      <label for="">Time Preference</label>
+      <div class="form-check">
+        <input
+          type="radio"
+          class="form-check-input"
+          name="timePreference"
+          value="morning"
+          [(ngModel)]="userModel.timePreference"
+        />
+        <label class="form-check-label">Morning (9AM - 12PM)</label>
+      </div>
+      <div class="form-check">
+        <input
+          type="radio"
+          class="form-check-input"
+          name="timePreference"
+          value="evening"
+          [(ngModel)]="userModel.timePreference"
+        />
+        <label class="form-check-label">Evening (5PM - 8PM)</label>
+      </div>
+    </div>
+    <div class="form-check mb-3">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        name="subscribe"
+        [(ngModel)]="userModel.subscribe"
+      />
+      <label for="" class="form-check-label">
+        Send me promotional offers
+      </label>
+    </div>
+
+    <button
+      [disabled]="userForm.form.invalid || topicHasError"
+      class="btn btn-primary"
+      type="submit"
+    >
+      Submit form
+    </button>
+  </form>
+</div>

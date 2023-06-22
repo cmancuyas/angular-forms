@@ -1,0 +1,28 @@
+<h1>{{ [pageTitle] }}</h1>
+<img [src]="imgUrl" alt="image" />
+
+<div>
+  <button (click)="incrementCount()">Increment</button>
+  <button (click)="decrementCount()">Decrement</button>
+  <p>{{ count }}</p>
+</div>
+
+<div>
+  <input #nameRef type="text" [(ngModel)]="name" />
+  <p>Welcome name {{ name }}</p>
+</div>
+
+<!-- <div>
+  <input type="text" [ngModel]="userName" (ngModelChange)="userName = $event" />
+  <p>Welcome {{ userName }}</p>
+</div> -->
+
+<div>
+  <input type="text" [ngModel]="userName" (ngModelChange)="greetKobe($event)" />
+  <p>Welcome username {{ userName }}</p>
+</div>
+
+<div>
+  <input type="text" [(ngModel)]="customerName" />
+  <p>Welcome customerName {{ customerName }}</p>
+</div>

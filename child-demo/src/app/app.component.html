@@ -1,0 +1,7 @@
+<h2>Parent Component</h2>
+
+<app-child #child [loggedIn]="userLoggedIn"></app-child>
+{{ child.name }}
+<button class="btn btn-secondary m-3" (click)="child.greetKobe()">Greet</button>
+
+<button class="btn btn-primary" (click)="toggleLogin()">toggle login</button>
